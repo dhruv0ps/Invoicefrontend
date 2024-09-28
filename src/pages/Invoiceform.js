@@ -84,7 +84,7 @@ const InvoiceForm = () => {
     const userId = decodedToken.id; 
     console.log(userId);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/invoices`, {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/api/invoices`, {
         ...formDetails,
         total,
         userId
