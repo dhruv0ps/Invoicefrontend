@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Login from './components/Login';
+import Register from './components/Register';
+import Invoices from './components/Invoicedetail';
+import Invoiceform from './pages/Invoiceform';
+import InvoiceDetail from './components/Invoicedetail';
 
 function App() {
+  const location = useLocation();
+  
+  
+  const isAuthenticated = () => {
+   
+    return localStorage.getItem('token') !== null; 
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Navbar/>
+      <Routes>
+       
+        <Route path="/" element={isAuthenticated() ? <Navigate to="/invoiceform" /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/invoicedetail/:id" element={<InvoiceDetail />} />
+        
+        <Route path="/invoiceform" element={<Invoiceform />} />
+      </Routes>
+    </>
   );
 }
 
-export default App;
+const WrappedApp = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default WrappedApp;
